@@ -195,7 +195,7 @@ const month = cursor.getMonth();
         <Card className="w-full max-w-md rounded-3xl p-6 text-center shadow-xl">
           <CalendarDays className="mx-auto h-12 w-12 text-blue-600" />
           <h1 className="mt-4 text-2xl font-bold">みんなの予定カレンダー</h1>
-          <p className="mt-2 text-sm text-slate-500">予定の閲覧・登録にはDiscordログインが必要です。</p>
+          <p className="mt-1 text-xs sm:text-sm text-slate-500">予定の閲覧・登録にはDiscordログインが必要です。</p>
           <Button onClick={login} className="mt-6 w-full rounded-xl bg-indigo-600 hover:bg-indigo-700">Discordでログイン</Button>
         </Card>
       </main>
@@ -210,7 +210,7 @@ const month = cursor.getMonth();
     <main className="min-h-screen overflow-x-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 p-3 text-slate-800 sm:p-6">
       <div className="mx-auto w-full max-w-5xl">
         <header className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div><div className="mb-1 flex items-center gap-2 text-sm font-semibold text-blue-600"><CalendarDays className="h-4 w-4" /> 予定管理</div><h1 className="text-3xl font-bold">みんなの予定カレンダー</h1><p className="mt-1 text-sm text-slate-500">〇・△・×はSupabaseへ保存され、再読み込み後も残ります。</p></div>
+          <div><div className="mb-1 flex items-center gap-2 text-sm font-semibold text-blue-600"><CalendarDays className="h-4 w-4" /> 予定管理</div><h1 className="text-2xl sm:text-4xl font-bold">みんなの予定カレンダー</h1><p className="mt-1 text-xs sm:text-sm text-slate-500">〇・△・×はSupabaseへ保存され、再読み込み後も残ります。</p></div>
           <div className="flex items-center gap-2 rounded-2xl border bg-white px-3 py-2 shadow-sm">
             {currentProfile && <img src={currentProfile.avatar_url || fallbackAvatar(currentProfile.display_name)} alt={currentProfile.display_name} className="h-9 w-9 rounded-full border-2 border-blue-500 object-cover" />}
             <div><p className="text-xs text-slate-400">ログイン中</p><p className="max-w-28 truncate text-sm font-semibold">{currentProfile?.display_name || user.email || "Discord User"}</p></div>
@@ -241,7 +241,8 @@ const month = cursor.getMonth();
             </div>
           </div></CardHeader>
           <CardContent className="overflow-x-auto p-0">
-            <div className="grid h-11 grid-cols-7 border-b bg-slate-50 text-xs font-semibold">{["日", "月", "火", "水", "木", "金", "土"].map((label, i) => <div key={label} className={`flex items-center justify-center ${i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-slate-500"}`}>{label}</div>)}</div>
+  <div className="min-w-[700px]">
+    <div className="grid h-11 grid-cols-7 border-b bg-slate-50 text-xs font-semibold">{["日", "月", "火", "水", "木", "金", "土"].map((label, i) => <div key={label} className={`flex items-center justify-center ${i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-slate-500"}`}>{label}</div>)}</div>
             <div className="relative grid min-w-[700px] grid-cols-7 grid-rows-6">
               {calendarLoading && <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60"><Loader2 className="h-8 w-8 animate-spin text-blue-600" /></div>}
               {cells.map((date, index) => {
@@ -252,7 +253,7 @@ const month = cursor.getMonth();
                 const isToday = false;
                 return <motion.button key={key} whileHover={{ backgroundColor: "#eff6ff" }} onClick={() => { setSelectedDate(date); setMessage(""); }} className="min-h-0 min-w-0 overflow-hidden border-b border-r p-2 text-left"><span className={`inline-flex h-7 w-7 items-center justify-center rounded-full text-sm font-semibold ${isToday ? "bg-blue-600 text-white" : ""}`}>{date.getDate()}</span><div className="mt-2 grid grid-cols-4 place-items-center gap-1">{visible.slice(0, 8).map((profile) => <StatusAvatar key={profile.id} profile={profile} status={day[profile.id]} />)}</div></motion.button>;
               })}
-            </div>
+            </div></div>
           </CardContent>
         </Card>
       </div>
