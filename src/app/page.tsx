@@ -207,9 +207,9 @@ const month = cursor.getMonth();
   const myStatus = user ? selectedStatuses[user.id] : undefined;
 
   return (
-    <main className="min-h-screen overflow-x-auto bg-gradient-to-br from-slate-50 via-white to-blue-50 p-3 text-slate-800 sm:p-6">
-      <div className="mx-auto w-[704px] min-w-[704px] max-w-[704px]">
-        <header className="mb-5 flex items-end justify-between gap-3">
+    <main className="min-h-screen overflow-x-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 p-3 text-slate-800 sm:p-6">
+      <div className="mx-auto w-full max-w-5xl">
+        <header className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div><div className="mb-1 flex items-center gap-2 text-sm font-semibold text-blue-600"><CalendarDays className="h-4 w-4" /> 予定管理</div><h1 className="text-3xl font-bold">みんなの予定カレンダー</h1><p className="mt-1 text-sm text-slate-500">〇・△・×はSupabaseへ保存され、再読み込み後も残ります。</p></div>
           <div className="flex items-center gap-2 rounded-2xl border bg-white px-3 py-2 shadow-sm">
             {currentProfile && <img src={currentProfile.avatar_url || fallbackAvatar(currentProfile.display_name)} alt={currentProfile.display_name} className="h-9 w-9 rounded-full border-2 border-blue-500 object-cover" />}
@@ -218,10 +218,10 @@ const month = cursor.getMonth();
           </div>
         </header>
 
-        <Card className="h-[768px] w-[704px] overflow-hidden rounded-3xl bg-white shadow-xl">
-          <CardHeader className="h-[80px] border-b px-5 py-4"><div className="flex h-full items-center justify-between">
-            <div className="flex items-center gap-2"><Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month - 1, 1))}><ChevronLeft /></Button><CardTitle className="w-[170px] text-center text-2xl">{year}年 {month + 1}月</CardTitle><Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month + 1, 1))}><ChevronRight /></Button></div>
-            <div className="flex items-center gap-2"><select value={year} onChange={(e) => setCursor(new Date(Number(e.target.value), month, 1))} className="h-9 w-[88px] rounded-xl border px-2 text-xs">{Array.from({ length: 11 }, (_, i) => year - 5 + i).map((v) => <option key={v}>{v}</option>)}</select><select value={month} onChange={(e) => setCursor(new Date(year, Number(e.target.value), 1))} className="h-9 w-[72px] rounded-xl border px-2 text-xs">{Array.from({ length: 12 }, (_, i) => <option key={i} value={i}>{i + 1}月</option>)}</select>
+        <Card className="min-h-[768px] w-full overflow-hidden rounded-3xl bg-white shadow-xl">
+          <CardHeader className="h-[80px] border-b px-5 py-4"><div className="flex h-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-2"><Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month - 1, 1))}><ChevronLeft /></Button><CardTitle className="w-auto text-center text-lg sm:text-2xl">{year}年 {month + 1}月</CardTitle><Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month + 1, 1))}><ChevronRight /></Button></div>
+            <div className="flex flex-wrap items-center gap-2"><select value={year} onChange={(e) => setCursor(new Date(Number(e.target.value), month, 1))} className="h-9 w-[88px] rounded-xl border px-2 text-xs">{Array.from({ length: 11 }, (_, i) => year - 5 + i).map((v) => <option key={v}>{v}</option>)}</select><select value={month} onChange={(e) => setCursor(new Date(year, Number(e.target.value), 1))} className="h-9 w-[72px] rounded-xl border px-2 text-xs">{Array.from({ length: 12 }, (_, i) => <option key={i} value={i}>{i + 1}月</option>)}</select>
             <Button
   variant="secondary"
   className="h-9"
@@ -240,9 +240,9 @@ const month = cursor.getMonth();
 </Button>
             </div>
           </div></CardHeader>
-          <CardContent className="h-[688px] p-0">
+          <CardContent className="overflow-x-auto p-0">
             <div className="grid h-11 grid-cols-7 border-b bg-slate-50 text-xs font-semibold">{["日", "月", "火", "水", "木", "金", "土"].map((label, i) => <div key={label} className={`flex items-center justify-center ${i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-slate-500"}`}>{label}</div>)}</div>
-            <div className="relative grid h-[644px] grid-cols-7 grid-rows-6">
+            <div className="relative grid min-w-[700px] grid-cols-7 grid-rows-6">
               {calendarLoading && <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60"><Loader2 className="h-8 w-8 animate-spin text-blue-600" /></div>}
               {cells.map((date, index) => {
                 if (!date) return <div key={`empty-${index}`} className="min-h-0 min-w-0 border-b border-r bg-slate-50/40" />;
@@ -259,7 +259,7 @@ const month = cursor.getMonth();
 
       <AnimatePresence>{selectedDate && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4" onClick={() => setSelectedDate(null)}><motion.div initial={{ y: 30 }} animate={{ y: 0 }} onClick={(e) => e.stopPropagation()} className="max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl">
         <div className="flex justify-between"><div><p className="text-sm font-semibold text-blue-600">予定を登録</p><h2 className="text-2xl font-bold">{selectedDate.getFullYear()}年{selectedDate.getMonth() + 1}月{selectedDate.getDate()}日</h2></div><Button variant="ghost" size="icon" onClick={() => setSelectedDate(null)}><X /></Button></div>
-        <div className="mt-5 rounded-2xl border bg-slate-50 p-4"><p className="mb-3 font-semibold">現在：{myStatus ? `${statusMeta[myStatus].symbol} ${statusMeta[myStatus].label}` : "未回答"}</p><div className="grid grid-cols-4 gap-2">{(Object.entries(statusMeta) as [Status, typeof statusMeta[Status]][]).map(([key, meta]) => <button disabled={saving} key={key} onClick={() => saveStatus(key)} className={`rounded-2xl border p-3 text-center ${meta.tone} ${myStatus === key ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}><span className="block text-3xl font-bold">{meta.symbol}</span><span className="text-[11px] font-semibold">{meta.label}</span></button>)}<button disabled={saving} onClick={clearStatus} className={`rounded-2xl border bg-white p-3 text-center ${!myStatus ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}><RotateCcw className="mx-auto h-7 w-7" /><span className="mt-2 block text-[11px] font-semibold">未回答に戻す</span></button></div>{message && <p className="mt-3 text-sm font-medium text-blue-700">{message}</p>}</div>
+        <div className="mt-5 rounded-2xl border bg-slate-50 p-4"><p className="mb-3 font-semibold">現在：{myStatus ? `${statusMeta[myStatus].symbol} ${statusMeta[myStatus].label}` : "未回答"}</p><div className="grid grid-cols-2 sm:grid-cols-4 gap-2">{(Object.entries(statusMeta) as [Status, typeof statusMeta[Status]][]).map(([key, meta]) => <button disabled={saving} key={key} onClick={() => saveStatus(key)} className={`rounded-2xl border p-3 text-center ${meta.tone} ${myStatus === key ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}><span className="block text-3xl font-bold">{meta.symbol}</span><span className="text-[11px] font-semibold">{meta.label}</span></button>)}<button disabled={saving} onClick={clearStatus} className={`rounded-2xl border bg-white p-3 text-center ${!myStatus ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}><RotateCcw className="mx-auto h-7 w-7" /><span className="mt-2 block text-[11px] font-semibold">未回答に戻す</span></button></div>{message && <p className="mt-3 text-sm font-medium text-blue-700">{message}</p>}</div>
         <div className="mt-6 space-y-5">{(Object.entries(statusMeta) as [Status, typeof statusMeta[Status]][]).map(([status, meta]) => { const list = profiles.filter((profile) => selectedStatuses[profile.id] === status); return <section key={status}><div className="mb-2 flex items-center gap-2"><span className={`rounded-lg border px-2 py-1 font-bold ${meta.tone}`}>{meta.symbol}</span><h3 className="font-semibold">{meta.label}</h3><span className="text-sm text-slate-400">{list.length}人</span></div>{list.length ? <div className="grid grid-cols-3 gap-2">{list.map((profile) => <div key={profile.id} className="flex items-center gap-2 rounded-xl border p-2"><img src={profile.avatar_url || fallbackAvatar(profile.display_name)} alt={profile.display_name} className="h-8 w-8 rounded-full" /><span className="truncate text-sm">{profile.display_name}</span></div>)}</div> : <p className="rounded-xl bg-slate-50 p-2 text-sm text-slate-400">該当者はいません</p>}</section>; })}</div>
       </motion.div></motion.div>}</AnimatePresence>
     </main>
