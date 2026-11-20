@@ -219,7 +219,7 @@ const month = cursor.getMonth();
         </header>
 
         <Card className="min-h-[768px] w-full overflow-hidden rounded-3xl bg-white shadow-xl">
-         <Card className="min-h-[768px] w-full overflow-hidden rounded-3xl bg-white shadow-xl">
+         
   <CardHeader className="border-b px-5 py-4">
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
