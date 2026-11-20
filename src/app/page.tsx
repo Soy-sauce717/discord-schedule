@@ -209,7 +209,7 @@ const month = cursor.getMonth();
   return (
     <main className="min-h-screen overflow-x-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 p-3 text-slate-800 sm:p-6">
       <div className="mx-auto w-full max-w-5xl">
-        <header className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div><div className="mb-1 flex items-center gap-2 text-sm font-semibold text-blue-600"><CalendarDays className="h-4 w-4" /> 予定管理</div><h1 className="text-2xl sm:text-4xl font-bold">みんなの予定カレンダー</h1><p className="mt-1 text-xs sm:text-sm text-slate-500">〇・△・×はSupabaseへ保存され、再読み込み後も残ります。</p></div>
           <div className="flex items-center gap-2 rounded-2xl border bg-white px-3 py-2 shadow-sm">
             {currentProfile && <img src={currentProfile.avatar_url || fallbackAvatar(currentProfile.display_name)} alt={currentProfile.display_name} className="h-9 w-9 rounded-full border-2 border-blue-500 object-cover" />}
@@ -219,9 +219,9 @@ const month = cursor.getMonth();
         </header>
 
         <Card className="min-h-[768px] w-full overflow-hidden rounded-3xl bg-white shadow-xl">
-          <CardHeader className="h-[80px] border-b px-5 py-4"><div className="flex h-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-2"><Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month - 1, 1))}><ChevronLeft /></Button><CardTitle className="w-auto text-center text-lg sm:text-2xl">{year}年 {month + 1}月</CardTitle><Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month + 1, 1))}><ChevronRight /></Button></div>
-            <div className="flex flex-wrap items-center gap-2"><select value={year} onChange={(e) => setCursor(new Date(Number(e.target.value), month, 1))} className="h-9 w-[88px] rounded-xl border px-2 text-xs">{Array.from({ length: 11 }, (_, i) => year - 5 + i).map((v) => <option key={v}>{v}</option>)}</select><select value={month} onChange={(e) => setCursor(new Date(year, Number(e.target.value), 1))} className="h-9 w-[72px] rounded-xl border px-2 text-xs">{Array.from({ length: 12 }, (_, i) => <option key={i} value={i}>{i + 1}月</option>)}</select>
+          <CardHeader className="border-b px-5 py-4"> sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center justify-center gap-2">w Date(year, month - 1, 1))}><ChevronLeft /></Button><CardTitle className="w-auto text-center text-lg sm:text-2xl">{year}年 {month + 1}月</CardTitle><Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month + 1, 1))}><ChevronRight /></Button></div>
+            <div className="flex flex-wrap items-center justify-center gap-2">.target.value), month, 1))} className="h-9 w-[88px] rounded-xl border px-2 text-xs">{Array.from({ length: 11 }, (_, i) => year - 5 + i).map((v) => <option key={v}>{v}</option>)}</select><select value={month} onChange={(e) => setCursor(new Date(year, Number(e.target.value), 1))} className="h-9 w-[72px] rounded-xl border px-2 text-xs">{Array.from({ length: 12 }, (_, i) => <option key={i} value={i}>{i + 1}月</option>)}</select>
             <Button
   variant="secondary"
   className="h-9"
