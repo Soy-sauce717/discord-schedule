@@ -90,23 +90,22 @@ const month = cursor.getMonth();
   }, [year, month]);
 
   useEffect(() => {
-    let mounted = true;
-    supabase.auth.getUser().then(({ data }) => {
-      if (mounted) {
-        setUser(data.user ?? null);
-        setAuthLoading(false);
-      }
-    });
-    const { data: listener } = supabase.auth.onAuthStateChange(
-  async (_event, session) => {
+  let mounted = true;
 
-    setUser(session?.user ?? null);
-    setAuthLoading(false);
+  supabase.auth.getUser().then(({ data }) => {
+    if (mounted) {
+      setUser(data.user ?? null);
+      setAuthLoading(false);
+    }
+  });
 
-    if (session?.user) {
-      await supabase
-        .from("profiles")
-        .upsert({
+  const { data: listener } = supabase.auth.onAuthStateChange(
+    async (_event, session) => {
+      setUser(session?.user ?? null);
+      setAuthLoading(false);
+
+      if (session?.user) {
+        await supabase.from("profiles").upsert({
           id: session.user.id,
           display_name:
             session.user.user_metadata?.full_name ||
@@ -114,12 +113,17 @@ const month = cursor.getMonth();
             "Discord User",
           avatar_url:
             session.user.user_metadata?.avatar_url ?? null,
-          discord_user_id:
-            session.user.user_metadata?.provider_id ?? null,
+          discord_user_id: null,
         });
+      }
     }
-  }
-);
+  );
+
+  return () => {
+    mounted = false;
+    listener.subscription.unsubscribe();
+  };
+}, []);
 
   const loadMonth = useCallback(async () => {
     if (!user) return;
