@@ -97,15 +97,29 @@ const month = cursor.getMonth();
         setAuthLoading(false);
       }
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setAuthLoading(false);
-    });
-    return () => {
-      mounted = false;
-      listener.subscription.unsubscribe();
-    };
-  }, []);
+    const { data: listener } = supabase.auth.onAuthStateChange(
+  async (_event, session) => {
+
+    setUser(session?.user ?? null);
+    setAuthLoading(false);
+
+    if (session?.user) {
+      await supabase
+        .from("profiles")
+        .upsert({
+          id: session.user.id,
+          display_name:
+            session.user.user_metadata?.full_name ||
+            session.user.user_metadata?.name ||
+            "Discord User",
+          avatar_url:
+            session.user.user_metadata?.avatar_url ?? null,
+          discord_user_id:
+            session.user.user_metadata?.provider_id ?? null,
+        });
+    }
+  }
+);
 
   const loadMonth = useCallback(async () => {
     if (!user) return;
