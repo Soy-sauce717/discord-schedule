@@ -219,49 +219,81 @@ const month = cursor.getMonth();
         </header>
 
         <Card className="min-h-[768px] w-full overflow-hidden rounded-3xl bg-white shadow-xl">
-          <CardHeader className="border-b px-5 py-4">
-  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center justify-center gap-2">
-  <Button
-    variant="outline"
-    size="icon"
-    onClick={() => setCursor(new Date(year, month - 1, 1))}
-  >
-    <ChevronLeft />
-  </Button>
+         <Card className="min-h-[768px] w-full overflow-hidden rounded-3xl bg-white shadow-xl">
+  <CardHeader className="border-b px-5 py-4">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-  <CardTitle className="w-auto text-center text-lg sm:text-2xl">
-    {year}年 {month + 1}月
-  </CardTitle>
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setCursor(new Date(year, month - 1, 1))}
+        >
+          <ChevronLeft />
+        </Button>
 
-  <Button
-    variant="outline"
-    size="icon"
-    onClick={() => setCursor(new Date(year, month + 1, 1))}
-  >
-    <ChevronRight />
-  </Button>
-</div>
-            <div className="flex flex-wrap items-center justify-center gap-2">.target.value), month, 1))} className="h-9 w-[88px] rounded-xl border px-2 text-xs">{Array.from({ length: 11 }, (_, i) => year - 5 + i).map((v) => <option key={v}>{v}</option>)}</select><select value={month} onChange={(e) => setCursor(new Date(year, Number(e.target.value), 1))} className="h-9 w-[72px] rounded-xl border px-2 text-xs">{Array.from({ length: 12 }, (_, i) => <option key={i} value={i}>{i + 1}月</option>)}</select>
-            <Button
-  variant="secondary"
-  className="h-9"
-  onClick={() => {
-    const today = new Date();
-    setCursor(
-      new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        1
-      )
-    );
-  }}
->
-  今月
-</Button>
-            </div>
-          </div></CardHeader>
-          <CardContent className="overflow-x-auto p-0">
+        <CardTitle className="w-auto text-center text-lg sm:text-2xl">
+          {year}年 {month + 1}月
+        </CardTitle>
+
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setCursor(new Date(year, month + 1, 1))}
+        >
+          <ChevronRight />
+        </Button>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <select
+          value={year}
+          onChange={(e) =>
+            setCursor(new Date(Number(e.target.value), month, 1))
+          }
+          className="h-9 w-[88px] rounded-xl border px-2 text-xs"
+        >
+          {Array.from({ length: 11 }, (_, i) => year - 5 + i).map((v) => (
+            <option key={v}>{v}</option>
+          ))}
+        </select>
+
+        <select
+          value={month}
+          onChange={(e) =>
+            setCursor(new Date(year, Number(e.target.value), 1))
+          }
+          className="h-9 w-[72px] rounded-xl border px-2 text-xs"
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <option key={i} value={i}>
+              {i + 1}月
+            </option>
+          ))}
+        </select>
+
+        <Button
+          variant="secondary"
+          className="h-9"
+          onClick={() => {
+            const today = new Date();
+            setCursor(
+              new Date(
+                today.getFullYear(),
+                today.getMonth(),
+                1
+              )
+            );
+          }}
+        >
+          今月
+        </Button>
+      </div>
+
+    </div>
+  </CardHeader>
+
+  <CardContent className="overflow-x-auto p-0">
   <div className="min-w-[700px]">
     <div className="grid h-11 grid-cols-7 border-b bg-slate-50 text-xs font-semibold">{["日", "月", "火", "水", "木", "金", "土"].map((label, i) => <div key={label} className={`flex items-center justify-center ${i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-slate-500"}`}>{label}</div>)}</div>
             <div className="relative grid min-w-[700px] grid-cols-7 grid-rows-6">
