@@ -88,9 +88,7 @@ function monthRange(year: number, month: number) {
 // アイコン
 // =====================================================
 function fallbackAvatar(name: string) {
-  return `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodeURIComponent(
-    name
-  )}`;
+  return `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodeURIComponent(name)}`;
 }
 function StatusAvatar({
   profile,
