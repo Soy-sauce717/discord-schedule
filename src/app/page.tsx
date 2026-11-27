@@ -75,7 +75,8 @@ function localDateKey(date: Date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
-  return `y-{m}-${d}`;
+
+  return `${y}-${m}-${d}`;
 }
 function monthRange(year: number, month: number) {
   return {
@@ -87,7 +88,9 @@ function monthRange(year: number, month: number) {
 // アイコン
 // =====================================================
 function fallbackAvatar(name: string) {
-  return `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodeURIComponent(name)}`;
+  return `https://api.dicebear.com/9.x/thumbs/svg?seed=${encodeURIComponent(
+    name
+  )}`;
 }
 function StatusAvatar({
   profile,
